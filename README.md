@@ -11,5 +11,7 @@ In GNU / Linux
 Please run all the contents of the zip file in one folder.
 
 Run file mainWindow.py
+
 userName = amir
+
 password = 1234
