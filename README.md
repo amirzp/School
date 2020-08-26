@@ -1,5 +1,6 @@
 # School
 Modules required to install
+
 In Windows
 
 >pip install PyQt5
