@@ -124,23 +124,26 @@ class Dialog(QtWidgets.QWidget):
         password = self.passLine.text()
         c_password = self.confirmPassLine.text()
         if user and password and c_password:
-            if not len(password) > 3:
-                QtWidgets.QMessageBox.information(self, "Warning",
-                                                  "Your password must be at least 4 character. please try again")
+            if len(user) <= 8:
+                if not len(password) > 3:
+                    QtWidgets.QMessageBox.information(self, "Warning",
+                                                      "Your password must be at least 4 character. please try again")
+                else:
+                    flag = searchAdmin.register(user, password, c_password, self._id)
+                    if flag is None:
+                        QtWidgets.QMessageBox.information(self, "Warning", "Those passwords didn't match. please try again")
+                    elif flag is False:
+                        QtWidgets.QMessageBox.information(self, "Warning", "UserName has been taken. please try again")
+                    elif flag is True:
+                        QtWidgets.QMessageBox.information(self, "info", "Admin has been added")
+                        if self._id:
+                            self.window.enable_window(page="admin")
+                            self.destroy(True)
+                        self.userLine.setText("")
+                        self.passLine.setText("")
+                        self.confirmPassLine.setText("")
             else:
-                flag = searchAdmin.register(user, password, c_password, self._id)
-                if flag is None:
-                    QtWidgets.QMessageBox.information(self, "Warning", "Those passwords didn't match. please try again")
-                elif flag is False:
-                    QtWidgets.QMessageBox.information(self, "Warning", "UserName has been taken. please try again")
-                elif flag is True:
-                    QtWidgets.QMessageBox.information(self, "info", "Admin has been added")
-                    if self._id:
-                        self.window.enable_window(page="admin")
-                        self.destroy(True)
-                    self.userLine.setText("")
-                    self.passLine.setText("")
-                    self.confirmPassLine.setText("")
+                QtWidgets.QMessageBox.information(self, "Warning", "username must be less than 8 characters long")
         else:
             QtWidgets.QMessageBox.information(self, "Warning", "Fields can not empty")
 
